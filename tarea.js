@@ -1,12 +1,6 @@
-const readline = require("readline");
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-// Lista de tareas
+// tasks.js
 const listaTareas = [
+  // La lista de tareas se mueve aquí
   { indicador: "1", descripcion: "Desayunar", completada: false },
   { indicador: "2", descripcion: "Hacer ejercicio", completada: false },
   { indicador: "3", descripcion: "Tomar una ducha", completada: false },
@@ -55,77 +49,42 @@ function añadirTarea() {
   });
 }
 
-// Función para eliminar una tarea de la lista
-function eliminarTarea() {
-  rl.question("Indicador de la tarea a eliminar: ", (indicador) => {
-    // Buscamos la tarea en la lista por su indicador
-    const tareaEncontrada = listaTareas.find(
-      (tarea) => tarea.indicador === indicador
-    );
-    if (tareaEncontrada) {
-      // Eliminamos la tarea de la lista
-      listaTareas.splice(listaTareas.indexOf(tareaEncontrada), 1);
-      console.log("Tarea eliminada correctamente.");
-    } else {
-      console.log("No se encontró ninguna tarea con ese indicador.");
-    }
-    mostrarMenu();
-  });
+function añadirTarea(descripcion) {
+  const indicador = String(listaTareas.length + 1);
+  const tarea = { indicador, descripcion, completada: false };
+  listaTareas.push(tarea);
 }
 
-// Función para marcar una tarea como completada
-function completarTarea() {
-  rl.question("Indicador de la tarea a completar: ", (indicador) => {
-    // Buscamos la tarea en la lista por su indicador
-    const tareaEncontrada = listaTareas.find(
-      (tarea) => tarea.indicador === indicador
-    );
-    if (tareaEncontrada) {
-      // Marcamos la tarea como completada
-      tareaEncontrada.completada = true;
-      console.log("Tarea completada correctamente.");
-    } else {
-      console.log("No se encontró ninguna tarea con ese indicador.");
-    }
-    mostrarMenu();
-  });
+function eliminarTarea(indicador) {
+  const tareaEncontrada = listaTareas.find(
+    (tarea) => tarea.indicador === indicador
+  );
+  if (tareaEncontrada) {
+    listaTareas.splice(listaTareas.indexOf(tareaEncontrada), 1);
+  }
 }
 
-// Función para mostrar el menú de opciones
-function mostrarMenu() {
-  console.log("--- Lista de tareas ---");
-  listaTareas.forEach((tarea) => {
-    console.log(`Indicador: ${tarea.indicador}`);
-    console.log(`Descripción: ${tarea.descripcion}`);
-    console.log(`Estado: ${tarea.completada ? "Completada" : "No completada"}`);
-    console.log("-----------------------");
-  });
-  console.log("1. Añadir tarea");
-  console.log("2. Eliminar tarea");
-  console.log("3. Completar tarea");
-  console.log("4. Salir");
-
-  rl.question("Seleccione una opción: ", (opcion) => {
-    switch (opcion) {
-      case "1":
-        añadirTarea();
-        break;
-      case "2":
-        eliminarTarea();
-        break;
-      case "3":
-        completarTarea();
-        break;
-      case "4":
-        rl.close();
-        break;
-      default:
-        console.log("Opción inválida. Intente nuevamente.");
-        mostrarMenu();
-        break;
-    }
-  });
+function completarTarea(indicador) {
+  const tareaEncontrada = listaTareas.find(
+    (tarea) => tarea.indicador === indicador
+  );
+  if (tareaEncontrada) {
+    tareaEncontrada.completada = true;
+  }
+}
+//ajusta el estado de la tarea
+function ajustarEstadoTarea(indicador, valor) {
+  const tareaEncontrada = listaTareas.find(
+    (tarea) => tarea.indicador === indicador
+  );
+  if (tareaEncontrada) {
+    tareaEncontrada.completada = valor;
+  }
 }
 
-// Iniciamos el programa mostrando el menú de opciones
-mostrarMenu();
+module.exports = {
+  listaTareas,
+  añadirTarea,
+  eliminarTarea,
+  completarTarea,
+};
