@@ -1,6 +1,5 @@
 const readline = require("readline");
-const {
-  listaTareas,
+let {
   añadirTarea,
   eliminarTarea,
   completarTarea,
@@ -12,7 +11,8 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
-const listaTareas = [
+
+let listaTareas = [
   { indicador: "1", descripcion: "Desayunar", completada: false },
   { indicador: "2", descripcion: "Hacer ejercicio", completada: false },
   { indicador: "3", descripcion: "Tomar una ducha", completada: false },
@@ -46,52 +46,7 @@ const listaTareas = [
     completada: false,
   },
 ];
-
-function añadirTarea(descripcion) {
-  const indicador = String(listaTareas.length + 1);
-  const tarea = { indicador, descripcion, completada: false };
-  listaTareas.push(tarea);
-}
-
-function eliminarTarea(indicador) {
-  const tareaEncontrada = listaTareas.find(
-    (tarea) => tarea.indicador === indicador
-  );
-  if (tareaEncontrada) {
-    listaTareas.splice(listaTareas.indexOf(tareaEncontrada), 1);
-  }
-}
-
-function completarTarea(indicador) {
-  const tareaEncontrada = listaTareas.find(
-    (tarea) => tarea.indicador === indicador
-  );
-  if (tareaEncontrada) {
-    tareaEncontrada.completada = true;
-  }
-}
-
-function ajustarEstadoTarea(indicador, valor) {
-  const tareaEncontrada = listaTareas.find(
-    (tarea) => tarea.indicador === indicador
-  );
-  if (tareaEncontrada) {
-    tareaEncontrada.completada = valor;
-  }
-}
-
-function mostrarTareas() {
-  console.log("--- Lista de tareas ---");
-  listaTareas.forEach((tarea) => {
-    console.log(`Indicador: ${tarea.indicador}`);
-    console.log(`Descripción: ${tarea.descripcion}`);
-    console.log(`Estado: ${tarea.completada ? "Completada" : "No completada"}`);
-    console.log("-----------------------");
-  });
-}
-
 module.exports = {
-  listaTareas,
   añadirTarea,
   eliminarTarea,
   completarTarea,

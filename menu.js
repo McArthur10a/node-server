@@ -31,19 +31,6 @@ function mostrarMenu() {
   console.log("4. Salir");
   console.log("5. Ajustar estado de tarea");
 
-  // Nueva opción en el menú para ajustar el estado de una tarea
-  function ajustarEstadoTareaMenu() {
-    console.log("Ajustar el estado de una tarea:");
-    rl.question("Indicador de la tarea: ", (indicador) => {
-      rl.question("Marcar como completada (Sí/No): ", (respuesta) => {
-        const valor = respuesta.toLowerCase() === "si";
-        tasks.ajustarEstadoTarea(indicador, valor);
-        console.log(`Estado de la tarea ${indicador} ajustado.`);
-        mostrarMenu();
-      });
-    });
-  }
-
   rl.question("Seleccione una opción: ", (opcion) => {
     switch (opcion) {
       case "1":
@@ -69,20 +56,18 @@ function mostrarMenu() {
   });
 }
 
-rl.question("Seleccione una opción: ", (opcion) => {
-  switch (opcion) {
-    // ... Otras opciones de menú
-    case "5":
-      ajustarEstadoTareaMenu();
-      break;
-    default:
-      console.log("Opción inválida. Intente nuevamente.");
+// Nueva opción en el menú para ajustar el estado de una tarea
+function ajustarEstadoTareaMenu() {
+  console.log("Ajustar el estado de una tarea:");
+  rl.question("Indicador de la tarea: ", (indicador) => {
+    rl.question("Marcar como completada (Sí/No): ", (respuesta) => {
+      const valor = respuesta.toLowerCase() === "si";
+      tasks.ajustarEstadoTarea(indicador, valor);
+      console.log(`Estado de la tarea ${indicador} ajustado.`);
       mostrarMenu();
-      break;
-  }
-});
+    });
+  });
+}
 
 // Iniciamos el programa mostrando el menú de opciones
-module.exports = {
-  mostrarMenu,
-};
+mostrarMenu();
