@@ -1,3 +1,17 @@
+const readline = require("readline");
+const {
+  listaTareas,
+  añadirTarea,
+  eliminarTarea,
+  completarTarea,
+  ajustarEstadoTarea,
+  mostrarTareas,
+} = require("./tarea");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 const listaTareas = [
   { indicador: "1", descripcion: "Desayunar", completada: false },
   { indicador: "2", descripcion: "Hacer ejercicio", completada: false },
