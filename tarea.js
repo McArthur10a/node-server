@@ -1,6 +1,4 @@
-// tasks.js
 const listaTareas = [
-  // La lista de tareas se mueve aquí
   { indicador: "1", descripcion: "Desayunar", completada: false },
   { indicador: "2", descripcion: "Hacer ejercicio", completada: false },
   { indicador: "3", descripcion: "Tomar una ducha", completada: false },
@@ -41,7 +39,6 @@ function añadirTarea(descripcion) {
   listaTareas.push(tarea);
 }
 
-module.exports = {
 function eliminarTarea(indicador) {
   const tareaEncontrada = listaTareas.find(
     (tarea) => tarea.indicador === indicador
@@ -59,7 +56,7 @@ function completarTarea(indicador) {
     tareaEncontrada.completada = true;
   }
 }
-//ajusta el estado de la tarea
+
 function ajustarEstadoTarea(indicador, valor) {
   const tareaEncontrada = listaTareas.find(
     (tarea) => tarea.indicador === indicador
@@ -69,9 +66,9 @@ function ajustarEstadoTarea(indicador, valor) {
   }
 }
 
-function listaTareas() {
+function mostrarTareas() {
   console.log("--- Lista de tareas ---");
-  tarea.listaTareas.forEach((tarea) => {
+  listaTareas.forEach((tarea) => {
     console.log(`Indicador: ${tarea.indicador}`);
     console.log(`Descripción: ${tarea.descripcion}`);
     console.log(`Estado: ${tarea.completada ? "Completada" : "No completada"}`);
@@ -79,27 +76,11 @@ function listaTareas() {
   });
 }
 
-function iniciarCapturaTarea() {
-  rl.question("Descripción de la tarea: ", (descripcion) => {
-    // Generamos un indicador único para la tarea
-    const indicador = String(listaTareas.length + 1);
-    // Creamos un objeto con los datos de la tarea
-    const tarea = { indicador, descripcion, completada: false };
-    // Añadimos la tarea a la lista
-    listaTareas.push(tarea);
-    console.log("Tarea añadida correctamente.");
-    mostrarMenu();
-  });
-}
-  iniciarCapturaTarea, // Agregamos la función de captura de tarea al módulo exportado
-};
-
-iniciarCapturaTarea();
-// Llama a la función para listar tareas
 module.exports = {
   listaTareas,
   añadirTarea,
   eliminarTarea,
   completarTarea,
-  ajustarEstadoTarea, 
+  ajustarEstadoTarea,
+  mostrarTareas,
 };
