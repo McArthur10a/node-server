@@ -1,5 +1,5 @@
 const readline = require("readline");
-const tasks = require("./tarea.js");
+const { listaTareas, agregarTarea, ajustarEstadoTarea } = require("./tarea.js");
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -9,7 +9,7 @@ const rl = readline.createInterface({
 function añadirTarea() {
   console.log("Añadir una nueva tarea:");
   rl.question("Descripción de la tarea: ", (descripcion) => {
-    tasks.agregarTarea(descripcion);
+    agregarTarea(descripcion); // Cambio aquí
     console.log("Tarea añadida.");
     mostrarMenu();
   });
