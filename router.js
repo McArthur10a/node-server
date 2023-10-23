@@ -1,38 +1,48 @@
-//middleware post
+const express = require("express");
+const Router = express.Router();
 
-function cuerpoVacio(requ, res, next) {
-    if (requ.method === 'Push') {
-        if (Object.keys(req.body).length === 0) {
-            res
-                .status(400)
-                .json({ error: "Se solicita un indicador, descripcio y estado" });
-            
-        } else {
-            next();
-        }
+// Middleware para verificar si el cuerpo de la solicitud está vacío
+function cuerpoVacio(req, res, next) {
+  if (req.method === "POST") {
+    // Cambia "Push" a "POST"
+    if (Object.keys(req.body).length === 0) {
+      res
+        .status(400)
+        .json({ error: "Se solicita un indicador, descripción y estado" });
+    } else {
+      next();
     }
+  }
 }
 
-function infoNoVAlida(req, res, next) {
-    const indicador = req.body.indicador;
-    const descripcion = req.body.descripcion;
-    const estado = req.body.estado;
-    if (!indicador, ││ !descripcion ││!estado) {
-        res.status(400).json({
-           error : "Informacion no valida o atributos faltantes" 
-        })
-    }
+// Middleware para verificar si la información es válida
+function infoNoValida(req, res, next) {
+  // Cambia el nombre de la función a infoNoValida
+  const indicador = req.body.indicador;
+  const descripcion = req.body.descripcion;
+  const estado = req.body.estado;
+  if (!indicador || !descripcion || !estado) {
+    res.status(400).json({
+      error: "Información no válida o atributos faltantes",
+    });
+  } else {
+    next();
+  }
 }
 
-//ruta para crear uan tarea (POST)
-Router.psot("/agregartarea", cuerpoVacio, infoValida, (req, res) => {
+// Ruta para crear una tarea (POST)
+Router.post("/agregartarea", cuerpoVacio, infoNoValida, (req, res) => {
+  // Lógica para crear una tarea
 });
 
-//ruta para eliminar una tarea (DELETE)
-Router.delete("/eliminartarea/indicador", (req, res) => {
+// Ruta para eliminar una tarea (DELETE)
+Router.delete("/eliminartarea/:indicador", (req, res) => {
+  // Lógica para eliminar una tarea
 });
 
-//ruta para actualizar una tarea (UPDATE)
-Router.put();
+// Ruta para actualizar una tarea (UPDATE)
+Router.put("/actualizartarea/:indicador", (req, res) => {
+  // Lógica para actualizar una tarea
+});
 
 module.exports = Router;
