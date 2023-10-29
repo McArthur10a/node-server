@@ -41,53 +41,60 @@ const listaTareas = [
   },
 ];
 
-// Función para añadir una tarea a la lista
+// Función para añadir una tarea a la lista (retorna una promesa)
 function añadirTarea() {
-  rl.question("Descripción de la tarea: ", (descripcion) => {
-    // Generamos un indicador único para la tarea
-    const indicador = String(listaTareas.length + 1);
-    // Creamos un objeto con los datos de la tarea
-    const tarea = { indicador, descripcion, completada: false };
-    // Añadimos la tarea a la lista
-    listaTareas.push(tarea);
-    console.log("Tarea añadida correctamente.");
-    mostrarMenu();
+  return new Promise((resolve) => {
+    rl.question("Descripción de la tarea: ", (descripcion) => {
+      // Generamos un indicador único para la tarea
+      const indicador = String(listaTareas.length + 1);
+      // Creamos un objeto con los datos de la tarea
+      const tarea = { indicador, descripcion, completada: false };
+      // Añadimos la tarea a la lista
+      listaTareas.push(tarea);
+      console.log("Tarea añadida correctamente.");
+      resolve(); // Resolvemos la promesa
+    });
   });
 }
 
-// Función para eliminar una tarea de la lista
+// Función para eliminar una tarea de la lista (retorna una promesa)
 function eliminarTarea() {
-  rl.question("Indicador de la tarea a eliminar: ", (indicador) => {
-    // Buscamos la tarea en la lista por su indicador
-    const tareaEncontrada = listaTareas.find(
-      (tarea) => tarea.indicador === indicador
-    );
-    if (tareaEncontrada) {
-      // Eliminamos la tarea de la lista
-      listaTareas.splice(listaTareas.indexOf(tareaEncontrada), 1);
-      console.log("Tarea eliminada correctamente.");
-    } else {
-      console.log("No se encontró ninguna tarea con ese indicador.");
-    }
-    mostrarMenu();
+  return new Promise((resolve, reject) => {
+    rl.question("Indicador de la tarea a eliminar: ", (indicador) => {
+      // Buscamos la tarea en la lista por su indicador
+      const tareaEncontrada = listaTareas.find(
+        (tarea) => tarea.indicador === indicador
+      );
+      if (tareaEncontrada) {
+        // Eliminamos la tarea de la lista
+        listaTareas.splice(listaTareas.indexOf(tareaEncontrada), 1);
+        console.log("Tarea eliminada correctamente.");
+        resolve(); // Resolvemos la promesa
+      } else {
+        console.log("No se encontró ninguna tarea con ese indicador.");
+        reject(new Error("Tarea no encontrada")); // Rechazamos la promesa en caso de error
+      }
+    });
   });
 }
-
-// Función para marcar una tarea como completada
+// Función para marcar una tarea como completada (retorna una promesa)
 function completarTarea() {
-  rl.question("Indicador de la tarea a completar: ", (indicador) => {
-    // Buscamos la tarea en la lista por su indicador
-    const tareaEncontrada = listaTareas.find(
-      (tarea) => tarea.indicador === indicador
-    );
-    if (tareaEncontrada) {
-      // Marcamos la tarea como completada
-      tareaEncontrada.completada = true;
-      console.log("Tarea completada correctamente.");
-    } else {
-      console.log("No se encontró ninguna tarea con ese indicador.");
-    }
-    mostrarMenu();
+  return new Promise((resolve, reject) => {
+    rl.question("Indicador de la tarea a completar: ", (indicador) => {
+      // Buscamos la tarea en la lista por su indicador
+      const tareaEncontrada = listaTareas.find(
+        (tarea) => tarea.indicador === indicador
+      );
+      if (tareaEncontrada) {
+        // Marcamos la tarea como completada
+        tareaEncontrada.completada = true;
+        console.log("Tarea completada correctamente.");
+        resolve(); // Resolvemos la promesa
+      } else {
+        console.log("No se encontró ninguna tarea con ese indicador.");
+        reject(new Error("Tarea no encontrada")); // Rechazamos la promesa en caso de error
+      }
+    });
   });
 }
 
@@ -108,13 +115,28 @@ function mostrarMenu() {
   rl.question("Seleccione una opción: ", (opcion) => {
     switch (opcion) {
       case "1":
-        añadirTarea();
+        añadirTarea()
+          .then(() => mostrarMenu())
+          .catch((error) => {
+            console.error(error);
+            mostrarMenu();
+          });
         break;
       case "2":
-        eliminarTarea();
+        eliminarTarea()
+          .then(() => mostrarMenu())
+          .catch((error) => {
+            console.error(error);
+            mostrarMenu();
+          });
         break;
       case "3":
-        completarTarea();
+        completarTarea()
+          .then(() => mostrarMenu())
+          .catch((error) => {
+            console.error(error);
+            mostrarMenu();
+          });
         break;
       case "4":
         rl.close();
@@ -129,3 +151,9 @@ function mostrarMenu() {
 
 // Iniciamos el programa mostrando el menú de opciones
 mostrarMenu();
+
+// Evento de cierre de la consola
+rl.on("close", () => {
+  console.log("Programa terminado.");
+  process.exit(0);
+});

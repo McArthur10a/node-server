@@ -20,5 +20,8 @@
     "type": "git",
     "url": "node-server"
   },
-  "description": "lista de tareas"
+  "description": "lista de tareas",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
