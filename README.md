@@ -49,3 +49,4 @@ el metodo si dejo funcionar bien el programa.
 4. 👆✅Dependiendo de la opción seleccionada, el programa realiza una de las siguientes acciones:
  realiza bien todo sus funciones y sale bien del programa por el metodo que se le pide que es atraves del emtodo salir que es la opcion #4.
 
+# tareas-as-ncrona-en-node
